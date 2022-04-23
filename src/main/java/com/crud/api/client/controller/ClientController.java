@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crud.api.client.model.Client;
 import com.crud.api.client.repository.ClientRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="Client API REST")
 @RestController
 @RequestMapping("/client")
 public class ClientController {
 
     @Autowired
     ClientRepository clientRepo;
-
+    
+    @ApiOperation(value="Retorna uma lista com todos os clientes")
     @GetMapping()	
     @ResponseBody
     public ResponseEntity<List<Client>> getAllClient(){
@@ -33,7 +38,8 @@ public class ClientController {
     	
         return new ResponseEntity<List<Client>>(aClient, HttpStatus.OK);
     }
-
+    
+    @ApiOperation(value="Retorna um cliente pelo ID")
     @GetMapping("/id")
     @ResponseBody
     public ResponseEntity<?> getClientById(@RequestParam(name = "id") Long id){
@@ -49,6 +55,7 @@ public class ClientController {
     	
     }
     
+    @ApiOperation(value="Retorna um cliente pelo nome")
     @GetMapping("/name")
     @ResponseBody
     public ResponseEntity<?> getClientByName(@RequestParam(name = "name") String name){
@@ -74,7 +81,8 @@ public class ClientController {
 		}
     	
     }
-
+    
+    @ApiOperation(value="Inclui um cliente")
     @PostMapping()
     @ResponseBody
     public ResponseEntity<Client> saveClient(@RequestBody Client aClient){
@@ -84,6 +92,7 @@ public class ClientController {
         return new ResponseEntity<Client>(client, HttpStatus.CREATED);
     }
     
+    @ApiOperation(value="Atualiza um cliente")
     @PutMapping()
     @ResponseBody
     public ResponseEntity<?> updateClient(@RequestBody Client aClient){
@@ -96,7 +105,8 @@ public class ClientController {
     	Client client = clientRepo.saveAndFlush(aClient);
         return new ResponseEntity<Client>(client, HttpStatus.OK);
     }
-
+    
+    @ApiOperation(value="Deleta um cliente")
     @DeleteMapping()
     @ResponseBody
     public ResponseEntity<String> deleteClient(@RequestParam(name = "id") Long id){
